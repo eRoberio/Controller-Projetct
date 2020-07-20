@@ -1,0 +1,4 @@
+﻿<StaticWebAssets Version="1.0">
+  <ContentRoot BasePath="/Identity" Path="C:\Users\Kaline Almeida\.nuget\packages\microsoft.aspnetcore.identity.ui\3.1.6\staticwebassets\V4\" />
+  <ContentRoot BasePath="_content/Agenda" Path="C:\Desafio\Desafio\Agenda\Agenda\wwwroot\" />
+</StaticWebAssets>

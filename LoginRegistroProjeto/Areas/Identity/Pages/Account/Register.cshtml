@@ -6,60 +6,82 @@
 
 }
 
-    <form asp-route-returnUrl="@Model.ReturnUrl" method="post">
+<form asp-route-returnUrl="@Model.ReturnUrl" method="post">
 
-        <div asp-validation-summary="All" class="text-danger"></div>
-        <div class="row">
-            <div class="col-md-6">
-                <div class="form-group">
-                    <label asp-for="Input.nome"></label>
-                    <input asp-for="Input.nome" class="form-control" />
-                    <span asp-validation-for="Input.nome" class="text-danger"></span>
-                </div>
-
+    <div asp-validation-summary="All" class="text-danger"></div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="Input.Nome"></label>
+                <input asp-for="Input.Nome" class="form-control" />
+                <span asp-validation-for="Input.Nome" class="text-danger"></span>
             </div>
-            <div class="col-md-6">
-                <div class="form-group">
-                    <label asp-for="Input.sexo"></label>
-                    <input asp-for="Input.sexo" class="form-control" />
-                    <span asp-validation-for="Input.sexo" class="text-danger"></span>
-                </div>
 
-            </div>
         </div>
 
-        <div class="form-group">
-            <label asp-for="Input.Email"></label>
-            <input asp-for="Input.Email" class="form-control" />
-            <span asp-validation-for="Input.Email" class="text-danger"></span>
-        </div>
-
-
-        <div class="row">
-            <div class="col-md-6">
-
-                <div class="form-group">
-                    <label asp-for="Input.Password"></label>
-                    <input asp-for="Input.Password" class="form-control" />
-                    <span asp-validation-for="Input.Password" class="text-danger"></span>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="form-group">
-                    <label asp-for="Input.ConfirmPassword"></label>
-                    <input asp-for="Input.ConfirmPassword" class="form-control" />
-                    <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
-                </div>
-
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="Input.DataNascimento" class="control-label"></label>
+                <input asp-for="Input.DataNascimento" class="form-control" type="date">
+                <span asp-validation-for="Input.DataNascimento" class="text-danger"></span>
             </div>
         </div>
 
 
-       
-        
-        <button type="submit" class="btn btn-primary">Criar Conta</button>
-    </form>
+    </div>
 
-@section Scripts {
-    <partial name="_ValidationScriptsPartial" />
-}
+    <div class="form-group">
+        <label asp-for="Input.Email"></label>
+        <input asp-for="Input.Email" class="form-control" />
+        <span asp-validation-for="Input.Email" class="text-danger"></span>
+    </div>
+
+
+    <div class="row">
+        <div class="col-md-6">
+
+            <div class="form-group">
+                <label asp-for="Input.Password"></label>
+                <input asp-for="Input.Password" class="form-control" />
+                <span asp-validation-for="Input.Password" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="Input.ConfirmPassword"></label>
+                <input asp-for="Input.ConfirmPassword" class="form-control" />
+                <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="form-group text-center">
+
+        <select asp-for="Input.Sexo" class="form-control">
+            <option value="">Selecione o Sexo</option>
+            <option value="Masculino">Masculino</option>
+            <option value="Feminino">Feminino</option>
+        </select>
+
+
+
+        @*<label asp-for="Input.Sexo  "></label>
+        <input asp-for="Input.Sexo" type="RADIO" name="sexo" value="fem">   Feminino
+        <input asp-for="Input.Sexo" type="RADIO" name="sexo" value="masc">   Masculino <br>
+        <span asp-validation-for="Input.Sexo" class="text-danger"></span>*@
+
+
+
+    </div>
+
+
+    <button type="submit" class="btn btn-primary btn-block">Criar Conta</button>
+    <br />
+
+</form>
+
+@*@section Scripts {
+        <partial name="_ValidationScriptsPartial" />
+    }*@

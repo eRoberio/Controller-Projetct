@@ -2,60 +2,61 @@
     Layout = "/Views/Shared/_Layout.cshtml";
 }
 
-<div class="row">
 
-    <div class="col-md-6 offset-md-3">
-        <div class="card login-logout-tab">
-            <div class="card-header">
-                <ul class="nav nav-tabs card-header-tabs">
-                    <li class="nav-item">
-                        <a class="nav-link" href="/Identity/Account/Login">Login</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/Identity/Account/Register">Criar conta</a>
-                    </li>
-                </ul>
-                <br />
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <div class="card login-logout-tab">
+                <div class="card-header ">
+                    <ul class="nav nav-tabs card-header-tabs">
+                        <li class="nav-item">
+                            <a class="nav-link" href="/Identity/Account/Login">Login</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/Identity/Account/Register">Criar conta</a>
+                        </li>
+                        <li class="nav-item align-items-lg-end">
+                            <a class="nav-link" href="~/">Voltar</a>
+                        </li>
 
-                <br />
+                    </ul>
+
+                </div>
                 <div class="card-content">
-                    <div class="col-m-12">
-
+                    <div class="col-md-auto">
                         @RenderBody()
                     </div>
 
 
                 </div>
+
+
             </div>
 
         </div>
+
     </div>
 
-</div>
 
+    @section Scripts{
 
+        @RenderSection("Scripts", required: false)
 
+        <script>
 
-@section Scripts{
+            $(function () {
 
-    @RenderSection("Scripts", required: false)
-
-    <script>
-
-        $(function () {
-
-            var current = locatio.patname;
-            $('.nav-tabs li a').each(function () {
-                var $this = $(this);
-                if (current.indexOf($this.attr('href')) !== -1) {
-                    $this.addClass('active');
-                }
+                var current = locatio.patname;
+                $('.nav-tabs li a').each(function () {
+                    var $this = $(this);
+                    if (current.indexOf($this.attr('href')) !== -1) {
+                        $this.addClass('active');
+                    }
+                })
             })
-        })
 
 
 
 
-    </script>
+        </script>
 
-}
+    }

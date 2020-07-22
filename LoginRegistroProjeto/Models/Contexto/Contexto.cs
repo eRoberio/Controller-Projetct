@@ -1,4 +1,5 @@
 ﻿using LoginRegistroProjeto.Areas.Identity.Data;
+using LoginRegistroProjeto.Models.Entidades;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -25,34 +26,17 @@ namespace Agenda.Models.Entidades.Contexto
             
         }
 
-
-        public DbSet<Agendas> Agendamento { get; set; }
-
-
-
-   
+        public DbSet<Eventos> Agendamento { get; set; }
 
         public DbSet<AplicativoUsuario> Register{ get; set; }
 
+        public DbSet<Log> Log { get; set; }
 
+        public DbSet<MinhaAgenda> MinhaAgenda { get; set; }
 
-        
 
 
 
     }
 }
 
-
-//public class LoginRegistroContext : IdentityDbContext<AplicativoUsuario>
-//    {
-//        public LoginRegistroContext(DbContextOptions<LoginRegistroContext> options)
-//            : base(options)
-//        {
-//        }
-
-//        protected override void OnModelCreating(ModelBuilder builder)
-//        {
-//            base.OnModelCreating(builder);
-//        }
-//    }

@@ -1,54 +1,131 @@
-﻿@model IEnumerable<Agenda.Models.Entidades.Agendas>
+﻿
 
-@{
-    ViewData["Title"] = "Index";
-    Layout = "~/Views/Shared/_Layout.cshtml";
-}
+@using Microsoft.AspNetCore.Identity
+@using LoginRegistroProjeto.Areas.Identity.Data
 
-<h1>Index</h1>
 
-<p>
-    <a asp-action="Criar">Novo Evento</a>
-</p>
-<table class="table">
+@inject SignInManager<AplicativoUsuario> SignInManager
+@inject UserManager<AplicativoUsuario> UserManager
+@*@model IEnumerable<LoginRegistroProjeto.Models.Entidades.Log>*@
+
+
+@model IEnumerable<Agenda.Models.Entidades.Eventos>
+
+
+
+
+    <p class="col-11"></p>
+
+<div class="card-group">
+
+
+    <h1>| Eventos | </h1>
+    <ul class="navbar-nav pl-sm-5" ">
+        @if (SignInManager.IsSignedIn(User))
+        {
+            <li>
+                <a type="button" class="btn btn-primary btn-lg" href="~/Agenda/Criar">Novo Evento</a>
+            </li>
+        }
+    </ul>
+
+    @using (Html.BeginForm())
+    {
+        <p class="pl-sm-5">
+            Procurar por Nome: @Html.TextBox("SearchString")
+            <input class="btn btn-primary btn-lg" type="submit" value="Buscar" />
+        </p>
+
+    }
+
+</div>
+
+
+<br />
+
+<table class="table table-hover">
     <thead>
         <tr>
+
             <th>
-                @Html.DisplayNameFor(model => model.Id)
+                @Html.ActionLink("Nome", "Index", new { searchString = ViewBag.NomeParam })
+
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.title)
+                @Html.ActionLink("Descrição", "Index")
+
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.descricao)
+                @Html.ActionLink("Tipo", "Index")
+
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.tipo)
+
+                @Html.ActionLink("Data Evento", "Index", new { searchString = ViewBag.DataParam })
+
+
+
             </th>
-            <th></th>
+
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Id)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.title)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.descricao)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.tipo)
-            </td>
-            <td>
-                @Html.ActionLink("Editar", "Edit", new { id = item.Id }) |
-                @Html.ActionLink("Detalhes", "Detalhes", new { id = item.Id }) |
-                @Html.ActionLink("Excluir", "Delete", new { id = item.Id })
-            </td>
-        </tr>
-}
+
+
+
+        @foreach (var item in Model)
+        {
+            <tr>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.nome)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.descricao)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.tipo)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.dataCadastroEvento)
+                </td>
+
+                <td>
+                    <ul class="navbar-nav">
+                        @if (SignInManager.IsSignedIn(User))
+                        {
+                            //Resolver
+                            if (User.Identity.Name == "roberioalmeida.12@hotmail.com")
+                            {
+
+                                <li>
+                                    @Html.ActionLink("Editar", "Edit", new { id = item.Id }) |
+                                    @Html.ActionLink("Detalhes", "Detalhes", new { id = item.Id }) |
+                                    @Html.ActionLink("Excluir", "Delete", new { id = item.Id }) |
+                                </li>
+                            }
+                            else
+                            {
+
+                                @Html.ActionLink("Participar", "Edit", new { id = item.Id })
+                                @Html.ActionLink("Detalhes", "Detalhes", new { id = item.Id })
+                            }
+
+                        }
+                        else
+                        {
+                            @Html.ActionLink("Participar", "Edit", new { id = item.Id })
+                            @Html.ActionLink("Detalhes", "Detalhes", new { id = item.Id })
+
+                        }
+
+                    </ul>
+
+                </td>
+
+
+
+            </tr>
+        }
     </tbody>
 </table>

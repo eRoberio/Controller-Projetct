@@ -4,14 +4,16 @@ using Agenda.Models.Entidades.Contexto;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace LoginRegistroProjeto.Migrations
 {
     [DbContext(typeof(Contexto))]
-    partial class ContextoModelSnapshot : ModelSnapshot
+    [Migration("20200722150837_Migration13")]
+    partial class Migration13
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -29,9 +31,6 @@ namespace LoginRegistroProjeto.Migrations
                     b.Property<DateTime>("DataEvento")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("UserCreateId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<string>("descricao")
                         .HasColumnType("nvarchar(max)");
 
@@ -48,10 +47,6 @@ namespace LoginRegistroProjeto.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("UserCreateId")
-                        .IsUnique()
-                        .HasFilter("[UserCreateId] IS NOT NULL");
 
                     b.ToTable("TabEventos");
                 });
@@ -74,6 +69,12 @@ namespace LoginRegistroProjeto.Migrations
 
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
+
+                    b.Property<int?>("EventosId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ID_EVENTO")
+                        .HasColumnType("int");
 
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
@@ -114,9 +115,6 @@ namespace LoginRegistroProjeto.Migrations
                     b.Property<DateTime>("dataNascimento")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid>("idEvento")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<string>("nome")
                         .HasColumnType("nvarchar(max)");
 
@@ -124,6 +122,8 @@ namespace LoginRegistroProjeto.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("EventosId");
 
                     b.HasIndex("LogId");
 
@@ -138,27 +138,33 @@ namespace LoginRegistroProjeto.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
-            modelBuilder.Entity("LoginRegistroProjeto.Models.Entidades.EventoUsuario", b =>
+            modelBuilder.Entity("LoginRegistroProjeto.Models.Entidades.EventoAgenda", b =>
                 {
-                    b.Property<int>("EventoUsuarioId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("EventoId")
+                    b.Property<int>("idEvento")
                         .HasColumnType("int");
 
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("idUser")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("EventoAgendaidEvento")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("EventoAgendaidUser")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("EventoId")
+                        .HasColumnType("int");
 
                     b.Property<string>("UsuarioId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.HasKey("EventoUsuarioId");
+                    b.HasKey("idEvento", "idUser");
 
                     b.HasIndex("EventoId");
 
                     b.HasIndex("UsuarioId");
+
+                    b.HasIndex("EventoAgendaidEvento", "EventoAgendaidUser");
 
                     b.ToTable("EventoUsuarios");
                 });
@@ -346,31 +352,30 @@ namespace LoginRegistroProjeto.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("Agenda.Models.Entidades.Eventos", b =>
-                {
-                    b.HasOne("LoginRegistroProjeto.Areas.Identity.Data.AplicativoUsuario", "UserCreate")
-                        .WithOne("Eventos")
-                        .HasForeignKey("Agenda.Models.Entidades.Eventos", "UserCreateId");
-                });
-
             modelBuilder.Entity("LoginRegistroProjeto.Areas.Identity.Data.AplicativoUsuario", b =>
                 {
+                    b.HasOne("Agenda.Models.Entidades.Eventos", "Eventos")
+                        .WithMany()
+                        .HasForeignKey("EventosId");
+
                     b.HasOne("LoginRegistroProjeto.Models.Entidades.Log", null)
                         .WithMany("DadosUsuario")
                         .HasForeignKey("LogId");
                 });
 
-            modelBuilder.Entity("LoginRegistroProjeto.Models.Entidades.EventoUsuario", b =>
+            modelBuilder.Entity("LoginRegistroProjeto.Models.Entidades.EventoAgenda", b =>
                 {
                     b.HasOne("Agenda.Models.Entidades.Eventos", "Evento")
                         .WithMany("EventoUsuarios")
-                        .HasForeignKey("EventoId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("EventoId");
 
                     b.HasOne("LoginRegistroProjeto.Areas.Identity.Data.AplicativoUsuario", "Usuario")
                         .WithMany()
                         .HasForeignKey("UsuarioId");
+
+                    b.HasOne("LoginRegistroProjeto.Models.Entidades.EventoAgenda", null)
+                        .WithMany("EventoUsuarios")
+                        .HasForeignKey("EventoAgendaidEvento", "EventoAgendaidUser");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

@@ -27,12 +27,9 @@ namespace LoginRegistroProjeto.Controllers
 
 
             CarregarListAgenda();
-            var list = _contexto.MinhaAgenda.ToList();
+            var list = _contexto.MinhaAgendas.ToList();
             return View(list);
         }
-
-
-
 
 
 
@@ -43,6 +40,8 @@ namespace LoginRegistroProjeto.Controllers
             CarregarListAgenda();
 
             var agendaPessoal = new MinhaAgenda();
+
+            
 
             _contexto.SaveChanges();
 
@@ -56,7 +55,12 @@ namespace LoginRegistroProjeto.Controllers
         {
             if (ModelState.IsValid)
             {
-                _contexto.MinhaAgenda.Add(agendaPessoal);
+
+                //if (agendaPessoal.Tipo == "Exclusivo")
+                //{
+
+               
+                    _contexto.MinhaAgendas.Add(agendaPessoal);
                 _contexto.SaveChanges();
 
                 _contexto.Log.Add(
@@ -69,10 +73,14 @@ namespace LoginRegistroProjeto.Controllers
                }
 
                );
-                _contexto.SaveChanges();
+
+                    _contexto.SaveChanges();
 
 
-                return RedirectToAction("Index");
+                    return RedirectToAction("Index");
+
+
+
             }
             return View(agendaPessoal);
         }
@@ -84,7 +92,9 @@ namespace LoginRegistroProjeto.Controllers
         public IActionResult Detalhes(int id)
         {
             CarregarListAgenda();
-            var agendaPessoal = _contexto.MinhaAgenda.Find(id);
+
+            var agendaPessoal = _contexto.MinhaAgendas.Find(id);
+
             _contexto.Log.Add(
             new Log
             {
@@ -114,14 +124,14 @@ namespace LoginRegistroProjeto.Controllers
         {
             var ItensAgenda = new List<SelectListItem>
             {
-                new SelectListItem{ Value = "1", Text ="Exclusivo" },
-                new SelectListItem{ Value = "2", Text ="Compartilhado" }
+                new SelectListItem{ Value = "Exclusivo", Text ="Exclusivo" },
+                new SelectListItem{ Value = "Compartilhado", Text ="Compartilhado" }
             };
 
             var ItensStatus = new List<SelectListItem>
             {
-                new SelectListItem{ Value = "1", Text ="Aberto" },
-                new SelectListItem{ Value = "2", Text ="Fechado" },
+                new SelectListItem{ Value = "Aberto", Text ="Aberto" },
+                new SelectListItem{ Value = "Fechado", Text ="Fechado" },
 
 
             };

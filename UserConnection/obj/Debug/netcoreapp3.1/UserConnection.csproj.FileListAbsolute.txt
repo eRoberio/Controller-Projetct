@@ -1,4 +1,6 @@
-C:\Desafio\Desafio\Agenda\UserConnection\obj\Debug\netcoreapp3.1\Razor\Areas\Identity\Pages\Account\Login.cshtml.g.cs
+C:\Desafio\Desafio\Agenda\UserConnection\bin\Debug\netcoreapp3.1\runtimes\linux-armel\native\libe_sqlite3.so
+C:\Desafio\Desafio\Agenda\UserConnection\bin\Debug\netcoreapp3.1\runtimes\linux-musl-x64\native\libe_sqlite3.so
+C:\Desafio\Desafio\Agenda\UserConnection\bin\Debug\netcoreapp3.1\runtimes\win-x86\native\e_sqlite3.dll
 C:\Desafio\Desafio\Agenda\UserConnection\bin\Debug\netcoreapp3.1\Agenda.Views.dll
 C:\Desafio\Desafio\Agenda\UserConnection\bin\Debug\netcoreapp3.1\Agenda.Views.pdb
 C:\Desafio\Desafio\Agenda\UserConnection\bin\Debug\netcoreapp3.1\appsettings.Development.json
@@ -142,15 +144,12 @@ C:\Desafio\Desafio\Agenda\UserConnection\bin\Debug\netcoreapp3.1\runtimes\win-x8
 C:\Desafio\Desafio\Agenda\UserConnection\bin\Debug\netcoreapp3.1\runtimes\alpine-x64\native\libe_sqlite3.so
 C:\Desafio\Desafio\Agenda\UserConnection\bin\Debug\netcoreapp3.1\runtimes\linux-arm\native\libe_sqlite3.so
 C:\Desafio\Desafio\Agenda\UserConnection\bin\Debug\netcoreapp3.1\runtimes\linux-arm64\native\libe_sqlite3.so
-C:\Desafio\Desafio\Agenda\UserConnection\bin\Debug\netcoreapp3.1\runtimes\linux-armel\native\libe_sqlite3.so
-C:\Desafio\Desafio\Agenda\UserConnection\bin\Debug\netcoreapp3.1\runtimes\linux-musl-x64\native\libe_sqlite3.so
 C:\Desafio\Desafio\Agenda\UserConnection\bin\Debug\netcoreapp3.1\runtimes\linux-x64\native\libe_sqlite3.so
 C:\Desafio\Desafio\Agenda\UserConnection\bin\Debug\netcoreapp3.1\runtimes\linux-x86\native\libe_sqlite3.so
 C:\Desafio\Desafio\Agenda\UserConnection\bin\Debug\netcoreapp3.1\runtimes\osx-x64\native\libe_sqlite3.dylib
 C:\Desafio\Desafio\Agenda\UserConnection\bin\Debug\netcoreapp3.1\runtimes\win-arm\native\e_sqlite3.dll
 C:\Desafio\Desafio\Agenda\UserConnection\bin\Debug\netcoreapp3.1\runtimes\win-arm64\native\e_sqlite3.dll
 C:\Desafio\Desafio\Agenda\UserConnection\bin\Debug\netcoreapp3.1\runtimes\win-x64\native\e_sqlite3.dll
-C:\Desafio\Desafio\Agenda\UserConnection\bin\Debug\netcoreapp3.1\runtimes\win-x86\native\e_sqlite3.dll
 C:\Desafio\Desafio\Agenda\UserConnection\bin\Debug\netcoreapp3.1\runtimes\unix\lib\netcoreapp2.0\System.Runtime.Caching.dll
 C:\Desafio\Desafio\Agenda\UserConnection\bin\Debug\netcoreapp3.1\runtimes\win\lib\netcoreapp2.0\System.Runtime.Caching.dll
 C:\Desafio\Desafio\Agenda\UserConnection\bin\Debug\netcoreapp3.1\runtimes\win\lib\netstandard2.0\System.Security.Cryptography.ProtectedData.dll
@@ -167,6 +166,7 @@ C:\Desafio\Desafio\Agenda\UserConnection\obj\Debug\netcoreapp3.1\UserConnection.
 C:\Desafio\Desafio\Agenda\UserConnection\obj\Debug\netcoreapp3.1\UserConnection.TagHelpers.input.cache
 C:\Desafio\Desafio\Agenda\UserConnection\obj\Debug\netcoreapp3.1\UserConnection.TagHelpers.output.cache
 C:\Desafio\Desafio\Agenda\UserConnection\obj\Debug\netcoreapp3.1\UserConnection.RazorCoreGenerate.cache
+C:\Desafio\Desafio\Agenda\UserConnection\obj\Debug\netcoreapp3.1\Razor\Areas\Identity\Pages\Account\Login.cshtml.g.cs
 C:\Desafio\Desafio\Agenda\UserConnection\obj\Debug\netcoreapp3.1\Razor\Areas\Identity\Pages\Account\Register.cshtml.g.cs
 C:\Desafio\Desafio\Agenda\UserConnection\obj\Debug\netcoreapp3.1\Razor\Areas\Identity\Pages\Account\_ViewImports.cshtml.g.cs
 C:\Desafio\Desafio\Agenda\UserConnection\obj\Debug\netcoreapp3.1\Razor\Areas\Identity\Pages\_ValidationScriptsPartial.cshtml.g.cs

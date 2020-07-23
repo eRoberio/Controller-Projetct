@@ -4,14 +4,10 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static LoginRegistroProjeto.Areas.Identity.Pages.Account.RegisterModel;
 
 namespace Agenda.Models.Entidades
 {
-    
+
     [Table("TabEventos")]
     public class Eventos
     {
@@ -23,15 +19,19 @@ namespace Agenda.Models.Entidades
         public string local { get; set; }
         public string status { get; set; }
         [DataType(DataType.Date)]
-        public DateTime dataCadastroEvento { get; set; }
+        public DateTime DataEvento { get; set; }
 
-        public IEnumerable<AplicativoUsuario> CadEventos { get; set; }
-        public Log Log { get; set; }
-   
+        public string UserCreateId { get; set; }
+
+        public AplicativoUsuario UserCreate { get; set; }
+
+        public ICollection<EventoUsuario> EventoUsuarios { get; set; }
 
 
 
     }
+
+
 
 
 

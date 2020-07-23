@@ -41,7 +41,7 @@
                 @Html.DisplayNameFor(model => model.DataEvento)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.DadosUsuario.nome)
+
 
             </th>
         </tr>
@@ -70,14 +70,18 @@
                     @Html.DisplayFor(modelItem => item.DataEvento)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => User.Identity.Name)
+                    
 
                 </td>
-                @*<td>
+                @*
+                    
+                    <td>
                         @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
                         @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
                         @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-                    </td>*@
+                    </td>
+                    
+                *@
             </tr>
         }
 

@@ -115,7 +115,6 @@ C:\Desafio\Desafio\Agenda\Agenda\bin\Debug\netcoreapp3.1\runtimes\win-x86\native
 C:\Desafio\Desafio\Agenda\Agenda\bin\Debug\netcoreapp3.1\runtimes\unix\lib\netcoreapp2.0\System.Runtime.Caching.dll
 C:\Desafio\Desafio\Agenda\Agenda\bin\Debug\netcoreapp3.1\runtimes\win\lib\netcoreapp2.0\System.Runtime.Caching.dll
 C:\Desafio\Desafio\Agenda\Agenda\bin\Debug\netcoreapp3.1\runtimes\win\lib\netstandard2.0\System.Security.Cryptography.ProtectedData.dll
-C:\Desafio\Desafio\Agenda\Agenda\obj\Debug\netcoreapp3.1\Agenda.csprojAssemblyReference.cache
 C:\Desafio\Desafio\Agenda\Agenda\obj\Debug\netcoreapp3.1\Agenda.AssemblyInfoInputs.cache
 C:\Desafio\Desafio\Agenda\Agenda\obj\Debug\netcoreapp3.1\Agenda.AssemblyInfo.cs
 C:\Desafio\Desafio\Agenda\Agenda\obj\Debug\netcoreapp3.1\Agenda.csproj.CoreCompileInputs.cache

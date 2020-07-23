@@ -20,19 +20,36 @@ namespace Agenda.Models.Entidades.Contexto
             Database.EnsureCreated();
 
         }
-        protected override void OnModelCreating(ModelBuilder builder)
-        {
-            base.OnModelCreating(builder);
-            
-        }
 
-        public DbSet<Eventos> Agendamento { get; set; }
 
-        public DbSet<AplicativoUsuario> Register{ get; set; }
+        public DbSet<Eventos> Eventos { get; set; }
+
+        public DbSet<AplicativoUsuario> AplicativoUsuarios { get; set; }
+
+        public DbSet<EventoUsuario> EventoUsuarios { get; set; }
+
 
         public DbSet<Log> Log { get; set; }
 
-        public DbSet<MinhaAgenda> MinhaAgenda { get; set; }
+        public DbSet<MinhaAgenda> MinhaAgendas { get; set; }
+
+
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            base.OnModelCreating(builder);
+            builder.Entity<EventoUsuario>().HasKey(ea => new { ea.EventoUsuarioId });
+
+
+            builder.Entity<Eventos>(entidade =>
+            {
+                entidade.Property(e => e.nome)
+                      .IsRequired()
+                     .HasMaxLength(400);
+
+
+            });
+        }
+
 
 
 

@@ -10,7 +10,6 @@ using Microsoft.AspNetCore.Identity;
 
 namespace LoginRegistroProjeto.Areas.Identity.Data
 {
-    // Add profile data for application users by adding properties to the AplicativoUsuario class
 
     [Table("TabUsuarios")]
     public class AplicativoUsuario : IdentityUser
@@ -19,10 +18,9 @@ namespace LoginRegistroProjeto.Areas.Identity.Data
         public string sexo { get; set; }
         public DateTime dataNascimento { get; set; }
 
-        [ForeignKey("TabEventos")]
-        public int ID_EVENTO { get; set; }
 
-        public virtual Eventos Eventos { get; set; }
+
+        public Guid idEvento { get; set; }
 
 
 

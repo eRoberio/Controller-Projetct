@@ -11,6 +11,9 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
+using System.Security.Claims;
+
 
 namespace Agenda.Controllers
 {
@@ -18,7 +21,6 @@ namespace Agenda.Controllers
     public class AgendaController : Controller
     {
 
-     
 
         public IEnumerable<Log> Logs { get; set; }
 
@@ -27,20 +29,23 @@ namespace Agenda.Controllers
         public AgendaController(Contexto contexto)
         {
             _contexto = contexto;
-
+            
         }
 
 
 
-        //  !Listar
-        public IActionResult Index( string sortOrder ,string searchString)
-        {
 
+
+        //  !Listar
+        public IActionResult Index(string sortOrder, string searchString)
+        {
+            var IdUserGlobal = User?.FindFirstValue(ClaimTypes.NameIdentifier);
 
             ViewBag.NomeParam = String.IsNullOrEmpty(searchString) ? "Nome_desc" : "";
             ViewBag.DataParam = searchString == "Date" ? "Date_desc" : "Date";
 
-            var eventos = from s in _contexto.Agendamento select s;
+
+            var eventos = _contexto.Eventos.Include("UserCreate").Include("EventoUsuarios");
 
 
 
@@ -56,35 +61,43 @@ namespace Agenda.Controllers
                     eventos = eventos.OrderByDescending(s => s.nome);
                     break;
                 case "Date":
-                    eventos = eventos.OrderBy(s => s.dataCadastroEvento);
+                    eventos = eventos.OrderBy(s => s.DataEvento);
                     break;
                 case "Date_desc":
-                    eventos = eventos.OrderByDescending(s => s.dataCadastroEvento);
+                    eventos = eventos.OrderByDescending(s => s.DataEvento);
                     break;
                 default:
                     eventos = eventos.OrderBy(s => s.nome);
                     break;
             }
 
-            return View(eventos.ToList());
+         
+
+            var model = eventos.Select(x => new EventosModel
+            {
+
+                Id = x.Id,
+                nome = x.nome,
+                Email = x.UserCreate.Email,
+                descricao = x.descricao,
+                local = x.local,
+                tipo = x.tipo,
+                status = x.status,
+                DataEvento = x.DataEvento,
+                PermitirInscricao = string.IsNullOrEmpty(IdUserGlobal)
+                ? false :
+                !_contexto.EventoUsuarios.Any
+                (y => y.Usuario.Id == IdUserGlobal && y.EventoId == x.Id),
+                QtdInscritos = x.EventoUsuarios.Count
+
+            }).ToList();
+
+
+            return View(model);
+
+
+
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
         //Método de Criar
@@ -94,29 +107,73 @@ namespace Agenda.Controllers
             CarregarListAgenda();
             var agendas = new Eventos();
 
+
+            //_contexto.EventoUsuarios.Find();
+
             _contexto.Log.Add(
                 new Log
                 {
-                    EmailUsuario = User.Identity.Name,
+                    //EmailUsuario = User.FindFirstValue(ClaimTypes.NameIdentifier), ID DO USUÁRIO QUE ESTÁ CONECTADO
+
+                    EmailUsuario = User?.FindFirstValue(ClaimTypes.NameIdentifier),
+
                     DetalhesLog = "Parece que vai realizar o cadastro de um novo Evento"
                 }
 
                 );
+
             _contexto.SaveChanges();
 
-            
+
             return View(agendas);
 
         }
 
 
 
-        [HttpPost]
-        public IActionResult Criar(Eventos agendas)
+       
+
+            [HttpGet]
+        public IActionResult Participar(int id)
         {
+            var evento = _contexto.Eventos.FirstOrDefault(x => x.Id == id);
+            var user = _contexto.AplicativoUsuarios
+             .FirstOrDefault(x => x.Id == User
+             .FindFirstValue(ClaimTypes.NameIdentifier));
+
+            var eventoUsuario =
+                new EventoUsuario
+                {
+                    Evento = evento,
+                    Usuario = user
+                };
+
+            _contexto.EventoUsuarios.Add(eventoUsuario);
+
+            _contexto.SaveChanges();
+
+            return RedirectToAction("Index");
+
+        }
+
+
+
+        [HttpPost]
+        public IActionResult Criar(Eventos eventos)
+        {
+            var user = _contexto.AplicativoUsuarios
+                .FirstOrDefault(x => x.Id == User
+                .FindFirstValue(ClaimTypes.NameIdentifier));
+
+
+
+
+            eventos.UserCreate = user;
+
+
             if (ModelState.IsValid)
             {
-                _contexto.Agendamento.Add(agendas);
+                _contexto.Eventos.Add(eventos);
                 _contexto.SaveChanges();
 
                 _contexto.Log.Add(
@@ -124,22 +181,22 @@ namespace Agenda.Controllers
                {
                    EmailUsuario = User.Identity.Name,
                    DetalhesLog = string.Concat("Cadastrou um novo Evento: ",
-                   agendas.nome, "Data: ",
+                   eventos.nome, "Data: ",
                    DateTime.Now.ToLongDateString())
                }
 
                );
 
-                ViewBag.salvou = User.Identity.Name;
+
+
                 _contexto.SaveChanges();
-
-               
-
 
 
                 return RedirectToAction("Index");
             }
-            return View(agendas);
+
+
+            return View(eventos);
         }
 
 
@@ -147,7 +204,7 @@ namespace Agenda.Controllers
         [HttpGet]
         public IActionResult Edit(int id)
         {
-            var agendas = _contexto.Agendamento.Find(id);
+            var eventos = _contexto.Eventos.Find(id);
             CarregarListAgenda();
 
 
@@ -158,22 +215,22 @@ namespace Agenda.Controllers
                    EmailUsuario = User.Identity.Name,
                    DetalhesLog = string.Concat("Parece que vai realizar uma edição em:",
 
-                        agendas.Id, " - ", agendas.nome
+                        eventos.Id, " - ", eventos.nome
                    )
                }
                );
             _contexto.SaveChanges();
 
 
-            return View(agendas);
+            return View(eventos);
 
         }
         [HttpPost]
-        public IActionResult Edit(Eventos agendas)
+        public IActionResult Edit(Eventos eventos)
         {
             if (ModelState.IsValid)
             {
-                _contexto.Agendamento.Update(agendas);
+                _contexto.Eventos.Update(eventos);
                 _contexto.SaveChanges();
 
 
@@ -182,7 +239,7 @@ namespace Agenda.Controllers
              {
                  EmailUsuario = User.Identity.Name,
                  DetalhesLog = string.Concat("Atualizou o Evento: ",
-                 agendas.nome, "Data de Atialização: ",
+                 eventos.nome, "Data de Atialização: ",
                  DateTime.Now.ToLongDateString())
 
 
@@ -192,13 +249,14 @@ namespace Agenda.Controllers
                 _contexto.SaveChanges();
 
 
+
                 return RedirectToAction("Index");
             }
             else
             {
                 CarregarListAgenda();
 
-                return View(agendas);
+                return View(eventos);
             }
         }
 
@@ -208,25 +266,23 @@ namespace Agenda.Controllers
         public IActionResult Delete(int id)
         {
             CarregarListAgenda();
-            var agendas = _contexto.Agendamento.Find(id);
+            var eventos = _contexto.Eventos.Find(id);
 
-
-
-
-            return View(agendas);
+            return View(eventos);
 
         }
 
 
 
+
         [HttpPost]
-        public IActionResult Delete(Eventos _agenda)
+        public IActionResult Delete(Eventos _eventos)
         {
 
-            var agendas = _contexto.Agendamento.Find(_agenda.Id);
-            if (agendas != null)
+            var eventos = _contexto.Eventos.Find(_eventos.Id);
+            if (eventos != null)
             {
-                _contexto.Agendamento.Remove(agendas);
+                _contexto.Eventos.Remove(eventos);
                 _contexto.SaveChanges();
 
                 _contexto.Log.Add(
@@ -234,7 +290,7 @@ namespace Agenda.Controllers
              {
                  EmailUsuario = User.Identity.Name,
                  DetalhesLog = string.Concat("Apagou o Evento",
-                 agendas.nome, "Data de Exclução: ",
+                 eventos.nome, "Data de Exclução: ",
                  DateTime.Now.ToLongDateString())
 
 
@@ -243,11 +299,15 @@ namespace Agenda.Controllers
              );
                 _contexto.SaveChanges();
 
+
+
                 return RedirectToAction("Index");
 
 
             }
-            return View(agendas);
+
+
+            return View(eventos);
 
         }
 
@@ -259,14 +319,14 @@ namespace Agenda.Controllers
         public IActionResult Detalhes(int id)
         {
             CarregarListAgenda();
-            var agendas = _contexto.Agendamento.Find(id);
+            var eventos = _contexto.Eventos.Find(id);
             _contexto.Log.Add(
             new Log
             {
                 EmailUsuario = User.Identity.Name,
                 DetalhesLog = string.Concat("Parece que vai ver os Detalhes uma edição em:",
 
-                     agendas.Id, " - ", agendas.nome
+                     eventos.Id, " - ", eventos.nome
                 )
             }
             );
@@ -274,7 +334,7 @@ namespace Agenda.Controllers
 
 
 
-            return View(agendas);
+            return View(eventos);
 
         }
 
@@ -282,51 +342,25 @@ namespace Agenda.Controllers
 
         public void CarregarListAgenda()
         {
-            var ItensAgenda = new List<SelectListItem>
+            var ItensEventos = new List<SelectListItem>
             {
-                new SelectListItem{ Value = "1", Text ="Exclusivo" },
-                new SelectListItem{ Value = "2", Text ="Compartilhado" }
+                new SelectListItem{ Value = "Exclusivo", Text ="Exclusivo" },
+                new SelectListItem{ Value = "Compartilhado", Text ="Compartilhado" }
             };
 
             var ItensStatus = new List<SelectListItem>
             {
-                new SelectListItem{ Value = "1", Text ="Aberto" },
-                new SelectListItem{ Value = "2", Text ="Fechado" },
+                new SelectListItem{ Value = "Aberto", Text ="Aberto" },
+                new SelectListItem{ Value = "Fechado", Text ="Fechado" },
 
 
             };
 
-            ViewBag.tipo = ItensAgenda;
+
+
+
+            ViewBag.tipo = ItensEventos;
             ViewBag.status = ItensStatus;
-        }
-
-
-
-
-        [AllowAnonymous]
-        [HttpGet("api/ListarProdutos")]
-        public async Task<JsonResult> ListarProdutos()
-        {
-            return Json(await _contexto.Agendamento.ToListAsync());
-        }
-
-
-
-        [AllowAnonymous]
-        [HttpPost("api/AdicionarProd")]
-        public async void AdicionarProd(string id, string nome, string qtd)
-        {
-
-            _contexto.Agendamento.Add(new Eventos
-            {
-                Id = Convert.ToInt32(id),
-                nome = nome,
-                tipo = qtd
-            });
-
-
-            _contexto.SaveChanges();
-
         }
 
 

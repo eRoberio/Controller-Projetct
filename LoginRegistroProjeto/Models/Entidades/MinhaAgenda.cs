@@ -1,10 +1,6 @@
-﻿using LoginRegistroProjeto.Areas.Identity.Data;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace LoginRegistroProjeto.Models.Entidades
 {
@@ -23,11 +19,9 @@ namespace LoginRegistroProjeto.Models.Entidades
         public string Status { get; set; }
 
 
-        public Log Log { get; set; }
-        public AplicativoUsuario DadosUsuario { get; set; }
+        [DataType(DataType.Date)]
         [Display(Name ="Data do Evento")]
         public DateTime DataEvento { get; set; }
-
 
 
     }
